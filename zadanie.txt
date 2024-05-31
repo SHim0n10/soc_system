@@ -1,0 +1,17 @@
+Murin - novy django projekt
+
+modely:
+téma -> názov (required), popis (required), konzultant (required), študent, odbor (na siov.com) (required), dostupnosť {voľné, čakajúce na schválenie, obsadené}, počet konzultácií (3 stavy)
+učiteľ -> meno, priezvisko, email, heslo
+študent -> meno, priezvisko, email, heslo
+
+urlcky:
+vsetky témy (najskôr ukázať voľné) - filtracia
+ucitel (ucitel/id) - vsetky témy ako konzultant
+student (student/id) - jeho prácu
+tema (tema/id) - detail o teme (rovnako ako u studenta)
+statistic - pocet tem, shvaleny studenti, cakajuci, pocet konzultantov ...
+
+nova tema - form
+
+
