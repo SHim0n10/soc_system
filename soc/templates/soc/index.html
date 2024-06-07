@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if temy %}
+<ul class="list-group">
+    {% for tema in temy %}
+    <li class="list-group-item">
+    <a class="link-underline link-underline-opacity-0" data-bs-toggle="collapse" href="#{{tema.id}}" role="button" aria-expanded="false">
+        <div class="d-flex justify-content-between">
+        <h3 style="margin-bottom:0; color: cyan;">{{tema}}</h3>
+        {% if tema.dostupnost.nazov == "voľné"%}
+        <p style="margin-top: 10px; margin-bottom: 7px; color: green;">{{tema.dostupnost}}</p>
+        {% elif tema.dostupnost.nazov == "čakajúce na schválenie"%}
+        <p style="margin-top: 10px; margin-bottom: 7px; color: yellow;">{{tema.dostupnost}}</p>
+        
+        {% elif tema.dostupnost.nazov == "obsadené"%}
+        <p style="margin-top: 10px; margin-bottom: 7px; color: red;">{{tema.dostupnost}}</p>
+
+
+
+
+        {% endif %}
+        </div>
+    </a>
+    <div class="collapse" id="{{tema.id}}">
+        <div class="card card-body">
+            <strong>Názov: </strong>
+            {{tema}}
+            <strong style="margin-top: 10px;">Popis: </strong>
+            {{tema.popis}}
+            <strong style="margin-top: 10px;">Konzultant: </strong>
+            {{tema.konzultant}}
+            <strong style="margin-top: 10px;">Študent: </strong>
+            {% if tema.student %}
+            {{tema.student}}
+            {% else %}
+            ----
+            {% endif %}
+            <strong style="margin-top: 10px;">Odbor: </strong>
+            {{tema.odbor}}
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+</ul>
+
+<!-- JavaScript -->
+
+    {% endif %}
+{% endblock content %}

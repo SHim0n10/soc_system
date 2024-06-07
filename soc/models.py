@@ -59,7 +59,7 @@ class Tema(models.Model):
     konzultant = models.ForeignKey(Ucitel, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)
     odbor = models.ForeignKey(Odbor, on_delete=models.CASCADE)
-    dostupnosť = models.ForeignKey(Dostupnost, on_delete=models.CASCADE)
+    dostupnost = models.ForeignKey(Dostupnost, on_delete=models.CASCADE)
     koznultacie = models.IntegerField()
 
     class Meta:

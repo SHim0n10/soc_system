@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
+from . models import *
 
 def vypis_tem(request):
-    pass
+    temy = Tema.objects.all().order_by("dostupnost", "id")
+
+    return render(request, "soc/index.html", {"temy":temy})
