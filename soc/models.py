@@ -60,7 +60,7 @@ class Tema(models.Model):
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)
     odbor = models.ForeignKey(Odbor, on_delete=models.CASCADE)
     dostupnost = models.ForeignKey(Dostupnost, on_delete=models.CASCADE)
-    koznultacie = models.IntegerField()
+    konzultacie = models.IntegerField()
 
     class Meta:
         verbose_name = "Téma"
