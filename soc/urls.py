@@ -8,6 +8,8 @@ urlpatterns = [
     path('student/<student>', views.vypis_studenta, name='student'),
     path('tema/<tema>', views.vypis_temu, name='tema'),
     path('filter_temy', views.filter_temy, name='filter_temy'),
+    path('stats', views.vypis_stats, name='stats'),
+    path('add_temu', views.vypis_add_temu, name='add_temu')
 
 
 ]

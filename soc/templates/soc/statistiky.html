@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="information">
+        <h2>Témy</h2>
+        <p class="nadpis_detail"><strong>Počet tém: </strong>{{temy}}</p>
+        <p class="nadpis_detail"><strong>Počet zabraných tém: </strong>{{obsadene}}</p>
+        <p class="nadpis_detail"><strong>Počet voľných tém: </strong>{{volne}}</p>
+        <p class="nadpis_detail"><strong>Počet čakajúcich tém: </strong>{{cakajuce}}</p>
+        <h2>Učitelia</h2>
+        <p class="nadpis_detail"><strong>Počet učiteľov: </strong>{{ucitelia}}</p>
+        <p class="nadpis_detail"><strong>Počet učiteľov s témou: </strong>{{ucitelia_s_temamy}}</p>
+        <p class="nadpis_detail"><strong>Počet učiteľov bez témy: </strong>{{ucitelia_bez_temy}}</p>
+        <h2>Žiaci</h2>
+        <p class="nadpis_detail"><strong>Počet žiakov: </strong>{{ziaci}}</p>
+        <p class="nadpis_detail"><strong>Počet žiakov s témou: </strong>{{studenti_s_temamy}}</p>
+        <p class="nadpis_detail"><strong>Počet bez témy: </strong>{{studenti_bez_temy}}</p>
+    </div>
+</div>
+{% endblock content %}

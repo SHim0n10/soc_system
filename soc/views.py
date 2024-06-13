@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
+from django.db.models import Count
 from . models import *
 
 def vypis_tem(request):
@@ -11,16 +12,31 @@ def vypis_tem(request):
     return render(request, "soc/index.html", {"temy":temy, "konzultanti":konzultanti, "studenti":studenti, "odbory":odbory})
 
 def vypis_ucitela(request, ucitel):
-    ucitel = Ucitel.objects.get(pk=ucitel)
-    temy = Tema.objects.filter(konzultant=ucitel).order_by("dostupnost", "id")
+    try:
+        ucitel = Ucitel.objects.get(pk=ucitel)
+        temy = Tema.objects.filter(konzultant=ucitel).order_by("dostupnost", "id")
+    except:
+        ucitel = False
+        temy = False
+
     
-    return render(request, "soc/index.html", {"temy":temy, "ucitel":ucitel})
+    if temy:
+        return render(request, "soc/ucitel.html", {"temy":temy, "ucitel":ucitel})
+    else:
+        return render(request, "soc/ucitel.html", {"ucitel":ucitel})
 
 def vypis_studenta(request, student):
-    student = Student.objects.get(pk=student)
-    temy = Tema.objects.filter(student=student).order_by("dostupnost", "id")
-    
-    return render(request, "soc/index.html", {"temy":temy, "student":student})
+    try:
+        student = Student.objects.get(pk=student)
+        tema = Tema.objects.filter(student=student)
+    except:
+        student = False
+        tema = False
+
+    if tema:
+        return render(request, "soc/student.html", {"tema":tema, "student":student})
+    else:
+        return render(request, "soc/student.html", {"student":student})
 
 def vypis_temu(request, tema):
     try:
@@ -28,7 +44,7 @@ def vypis_temu(request, tema):
     except:
         tema = False
 
-    return render(request, "soc/index.html", {"tema":tema})
+    return render(request, "soc/tema.html", {"tema":tema})
 
 def filter_temy(request):
     nazov_query = request.GET.get('nazov', '')
@@ -38,7 +54,7 @@ def filter_temy(request):
     odbor_query = request.GET.get('odbor', '')
     konzultacie_query = request.GET.get('konzultacie', '')
 
-    temy = Tema.objects.all()
+    temy = Tema.objects.all().order_by("dostupnost", "id")
 
     if nazov_query:
         temy = temy.filter(nazov__icontains=nazov_query)
@@ -67,3 +83,23 @@ def filter_temy(request):
         })
     return JsonResponse(results, safe=False)
 
+def vypis_stats(request):
+    temy = Tema.objects.all().count()
+    obsadene = Tema.objects.filter(dostupnost=Dostupnost.objects.get(nazov="obsadené")).count()
+    volne = Tema.objects.filter(dostupnost=Dostupnost.objects.get(nazov="voľné")).count()
+    cakajuce = Tema.objects.filter(dostupnost=Dostupnost.objects.get(nazov="čakajúce na schválenie")).count()
+    ucitelia = Ucitel.objects.all().count()
+    ziaci = Student.objects.all().count()
+    studenti_s_temamy = Student.objects.annotate(temy=Count('tema'))
+    count_studenti = studenti_s_temamy.filter(temy__gt=0).count()
+    count_studenti_bez = studenti_s_temamy.filter(temy=0).count()
+    ucitelia_s_temamy = Ucitel.objects.annotate(temy=Count('tema'))
+    count_ucitelia = ucitelia_s_temamy.filter(temy__gt=0).count()
+    count_ucitelia_bez = ucitelia_s_temamy.filter(temy=0).count()
+    return render(request, 'soc/statistiky.html', {"temy": temy, "obsadene":obsadene,"cakajuce":cakajuce,"volne":volne,"ziaci":ziaci,"ucitelia":ucitelia,"studenti_s_temamy":count_studenti,"ucitelia_s_temamy":count_ucitelia,"ucitelia_bez_temy":count_ucitelia_bez,"studenti_bez_temy":count_studenti_bez})
+
+def vypis_add_temu(request):
+    konzultanti = Ucitel.objects.all().order_by("priezvisko")
+    studenti = Student.objects.all().order_by("priezvisko")
+    odbory = Odbor.objects.all().order_by("nazov")
+    return render(request, "soc/add_tema.html", {"ucitelia":konzultanti, "studenti":studenti, "odbory":odbory})

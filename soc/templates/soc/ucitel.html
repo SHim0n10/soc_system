@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+{% if ucitel %}
+<h1>{{ucitel}}</h1>
+{% if temy %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="list-group" id="temy-list">
+              <!-- list items will be rendered here -->
+                {% for tema in temy %}
+                <li class="list-group-item">
+                    <a class="link-underline link-underline-opacity-0" data-bs-toggle="collapse" href="#{{ tema.id }}" role="button" aria-expanded="false">
+                        <div class="d-flex justify-content-between">
+                            <h4 style="margin-bottom:0; margin-top:6px;">{{ tema }}</h4>
+                            {% if tema.dostupnost.nazov == "voľné" %}
+                            <p style="margin-top: 10px; margin-bottom: 7px; color: white;background-color:green; padding: 0 7px;">{{ tema.dostupnost }}</p>
+                            {% elif tema.dostupnost.nazov == "čakajúce na schválenie" %}
+                            <p style="margin-top: 10px; margin-bottom: 7px; color: white; background-color:orange; padding: 0 7px;">{{ tema.dostupnost }}</p>
+                            {% elif tema.dostupnost.nazov == "obsadené" %}
+                            <p style="margin-top: 10px; margin-bottom: 7px; color: white; background-color:red; padding: 0 7px;">{{ tema.dostupnost }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                    <div class="collapse mt-2" id="{{ tema.id }}">
+                        <div class="card card-body">
+                            <strong>Názov: </strong> {{ tema.nazov }}
+                            <strong style="margin-top: 10px;">Popis: </strong> {{ tema.popis }}
+                            <strong style="margin-top: 10px;">Konzultant: </strong> {{ tema.konzultant }}
+                            <strong style="margin-top: 10px;">Študent: </strong>
+                            {% if tema.student %}
+                            <a class="link-underline link-underline-opacity-0" href="{% url "student" student=tema.student.id %}" style="color: white;">{{tema.student}}</a>
+                            {% else %}
+                            ----
+                            {% endif %}
+                            <strong style="margin-top: 10px;">Odbor: </strong> {{ tema.odbor }}
+                            <strong style="margin-top: 10px;">Konzultácie: </strong>
+                            {% if tema.konzultacie == 0 %}
+                            ☐☐☐
+                            {% elif tema.konzultacie == 1 %}
+                            ☑☐☐
+                            {% elif tema.konzultacie == 2 %}
+                            ☑☑☐
+                            {% elif tema.konzultacie == 3 %}
+                            ☑☑☑
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+          </div>
+</div>
+{% else %}
+<h4>nemá priradenú tému</h4>
+{% endif %}
+{% else %}
+<h4>Učiteľ sa nenašiel</h4>
+{% endif %}
+{% endblock content %}

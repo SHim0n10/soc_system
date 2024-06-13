@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-center">
+<h1>Nová Téma</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="part">
+                    <label for="nazov">Názov témy:</label> 
+                    <input type="text" name="nazov" class="text_input" maxlength="100" required>
+                </div>
+                <div class="part">
+                    <label for="popis_temy">Popis témy:</label>
+                    <textarea name="popis_temy" class="area_input" maxlength="500" rows="5" required></textarea>
+                </div>
+                <div class="part">
+                    <label for="odbor">Odbor:</label>
+                    <select id="odbor" name="odbor" class="dropdown">
+                        {% for odbor in odbory%}
+                        <option value="{{odbor.id}}">{{odbor.nazov}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="part">
+                    <label for="konzultant">Konzultant:</label>
+                    <select id="konzultant" name="konzultant" class="dropdown">
+                        {% for konzultant in ucitelia%}
+                        <option value="{{konzultant.id}}">{{konzultant.meno}} {{konzultant.priezvisko}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="part">
+                    <label for="Študent">Študent:</label>
+                    <select id="student" name="student" class="dropdown">
+                        <option value="">--------------------</option>
+                        {% for student in studenti%}
+                        <option value="{{student.id}}">{{student.meno}} {{student.priezvisko}} - {{student.trieda}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="part_button">
+                    <input type="submit" value="Vytvoriť" class="button">
+                </div>
+            </form>
+
+        </div>
+{% endblock content %}
