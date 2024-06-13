@@ -11,7 +11,7 @@
               <input type="text" id="filter-popis" placeholder="Filter by Popis" oninput="filterTemy()" class="form-control">
             </div>
             <div class="input-group mb-3">
-              <label for="filter-konzultant">Filter by Konzultant:</label>
+              <label style="margin-top:7px; margin-right: 8px;" for="filter-konzultant">Filter by Konzultant:</label>
               <select id="filter-konzultant" oninput="filterTemy()" class="form-control">
                 <option value="">Vybrať konzultanta</option>
                 {% for konzultant in konzultanti %}
@@ -20,7 +20,7 @@
               </select>
             </div>
             <div class="input-group mb-3">
-              <label for="filter-student">Filter by Student:</label>
+              <label style="margin-top:7px; margin-right: 8px;" for="filter-student">Filter by Student:</label>
               <select id="filter-student" oninput="filterTemy()" class="form-control">
                 <option value="">Vybrať študenta</option>
                 {% for student in studenti %}
@@ -29,7 +29,7 @@
               </select>
             </div>
             <div class="input-group mb-3">
-              <label for="filter-odbor">Filter by Odbor:</label>
+              <label style="margin-top:7px; margin-right: 8px;" for="filter-odbor">Filter by Odbor:</label>
               <select id="filter-odbor" oninput="filterTemy()" class="form-control">
                 <option value="">Vybrať odbor</option>
                 {% for odbor in odbory %}
@@ -38,7 +38,7 @@
               </select>
             </div>
             <div class="input-group mb-3">
-                <label for="filter-konzultacie">Filter by Konzultacie:</label>
+                <label style="margin-top:7px; margin-right: 8px;" for="filter-konzultacie">Filter by Konzultacie:</label>
                 <select id="filter-konzultacie" oninput="filterTemy()" class="form-control">
                   <option value="">Počet konzultacii</option>
                   <option value="1">1</option>
@@ -48,7 +48,6 @@
               </div>
           </div>
         </div>
-    <div class="row">
       <div class="col-md-12">
         <ul class="list-group" id="temy-list">
           <!-- list items will be rendered here -->
@@ -95,7 +94,6 @@
             {% endfor %}
         </ul>
       </div>
-    </div>
   </div>
     
 

@@ -1,47 +1,62 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="d-flex justify-content-center">
-<h1>Nová Téma</h1>
-            <form method="post">
-                {% csrf_token %}
-                <div class="part">
-                    <label for="nazov">Názov témy:</label> 
-                    <input type="text" name="nazov" class="text_input" maxlength="100" required>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h1>Nová Téma</h1>
                 </div>
-                <div class="part">
-                    <label for="popis_temy">Popis témy:</label>
-                    <textarea name="popis_temy" class="area_input" maxlength="500" rows="5" required></textarea>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="nazov" class="form-label">Názov témy:</label>
+                            <input type="text" name="nazov" class="form-control" maxlength="100" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="popis_temy" class="form-label">Popis témy:</label>
+                            <textarea name="popis_temy" class="form-control" maxlength="500" rows="5" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="odbor" class="form-label">Odbor:</label>
+                            <select id="odbor" name="odbor" class="form-select">
+                                {% for odbor in odbory %}
+                                <option value="{{ odbor.id }}">{{ odbor.nazov }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="konzultant" class="form-label">Konzultant:</label>
+                            <select id="konzultant" name="konzultant" class="form-select">
+                                {% for konzultant in ucitelia %}
+                                <option value="{{ konzultant.id }}">{{ konzultant.meno }} {{ konzultant.priezvisko }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Študent" class="form-label">Študent:</label>
+                            <select id="student" name="student" class="form-select">
+                                <option value="">--------------------</option>
+                                {% for student in studenti %}
+                                <option value="{{ student.id }}">{{ student.meno }} {{ student.priezvisko }} - {{ student.trieda }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Vytvoriť</button>
+                        </div>
+                        {% if message %}
+                        <div>
+                            {{message}}
+                        </div>
+                        {% endif %}
+                    </form>
                 </div>
-                <div class="part">
-                    <label for="odbor">Odbor:</label>
-                    <select id="odbor" name="odbor" class="dropdown">
-                        {% for odbor in odbory%}
-                        <option value="{{odbor.id}}">{{odbor.nazov}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="part">
-                    <label for="konzultant">Konzultant:</label>
-                    <select id="konzultant" name="konzultant" class="dropdown">
-                        {% for konzultant in ucitelia%}
-                        <option value="{{konzultant.id}}">{{konzultant.meno}} {{konzultant.priezvisko}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="part">
-                    <label for="Študent">Študent:</label>
-                    <select id="student" name="student" class="dropdown">
-                        <option value="">--------------------</option>
-                        {% for student in studenti%}
-                        <option value="{{student.id}}">{{student.meno}} {{student.priezvisko}} - {{student.trieda}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="part_button">
-                    <input type="submit" value="Vytvoriť" class="button">
-                </div>
-            </form>
-
+            </div>
         </div>
+    </div>
+</div>
+
 {% endblock content %}

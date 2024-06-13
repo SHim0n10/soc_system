@@ -102,4 +102,41 @@ def vypis_add_temu(request):
     konzultanti = Ucitel.objects.all().order_by("priezvisko")
     studenti = Student.objects.all().order_by("priezvisko")
     odbory = Odbor.objects.all().order_by("nazov")
-    return render(request, "soc/add_tema.html", {"ucitelia":konzultanti, "studenti":studenti, "odbory":odbory})
+
+    if (request.method == "GET"):
+        return render(request, "soc/add_tema.html", {"ucitelia":konzultanti, "studenti":studenti, "odbory":odbory})
+    else:
+        konzultant = request.POST['konzultant']
+        odbor = request.POST['odbor']
+        student = request.POST['student']
+
+        if student == "":
+            dostupnost = Dostupnost.objects.get(nazov='voľné')
+            pocet_kontrol = 0
+            student = None
+            tema = Tema(
+                nazov = request.POST['nazov'],
+                popis = request.POST['popis_temy'],
+                konzultant = Ucitel.objects.get(id=konzultant),
+                student = None,
+                odbor = Odbor.objects.get(id=odbor),
+                dostupnost = Dostupnost.objects.get(id=dostupnost.id),
+                konzultacie = 0
+            )
+        else:
+            existing_tema = Tema.objects.filter(student=student).exists()
+            if existing_tema:
+                return render(request, 'soc/add_tema.html', {"studenti": studenti, "ucitelia": konzultanti, "odbory": odbory, "message": "Študent už má zadanú tému!"})
+            else:
+                tema = Tema(
+                    nazov = request.POST['nazov'],
+                    popis = request.POST['popis_temy'],
+                    konzultant = Ucitel.objects.get(id=konzultant),
+                    student = Student.objects.get(id=student),
+                    odbor = Odbor.objects.get(id=odbor),
+                    dostupnost = Dostupnost.objects.get(nazov="čakajúce na schválenie"),
+                    konzultacie = 0
+                )
+        
+        tema.save()
+        return render(request, 'soc/add_tema.html', {"studenti": studenti, "ucitelia": konzultanti, "odbory": odbory, "message": "Téma bola úspešne pridaná!"})
